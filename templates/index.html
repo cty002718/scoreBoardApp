@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}撲克計分首頁{% endblock %}
+{% block title %}ScoreBoardApp | {{ game_name }} - 已建立遊戲{% endblock %}
 {% block content %}
   <div class="d-flex justify-content-between mt-3">
-    <h3>已建立的撲克遊戲</h3>
-    <a href="{% url "poker_create_game" %}" class="btn btn-outline-primary">新建遊戲</a>
+    <h3>已建立的{{ game_name }}遊戲</h3>
+    <a href="{% url game_create_url %}" class="btn btn-outline-primary">新建遊戲紀錄</a>
   </div>
 
   <table class="table text-center mt-3">
@@ -18,7 +18,7 @@
     <tbody>
       {% for game in gameList %}
       <tr>
-        <th scope="row"><a href="{% url "poker_detail" game.id %}">{{ forloop.counter }}</a></th>
+        <th scope="row"><a href="{% url game_detail_url game.id %}">{{ forloop.counter }}</a></th>
         <td>{{ game.create_time }}</td>
         <td>
           {% if game.end_time %}
@@ -27,9 +27,9 @@
         </td>
         <td>
           {% if game.status == 0 %}
-          <span class="badge badge-pill badge-success">遊戲中</span>
+          <h5><span class="badge badge-pill badge-success">遊戲中</span></h5>
           {% else %}
-          <span class="badge badge-pill badge-primary">已結束</span>
+          <h5><span class="badge badge-pill badge-primary">已結束</span></h5>
           {% endif %}
         </td>
       </tr>

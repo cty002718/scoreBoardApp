@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}ScoreBoardApp | 撲克 - 記錄分數{% endblock %}
+{% block title %}ScoreBoardApp | {{ game_name }} - 記錄分數{% endblock %}
 {% block content %}
 <h3 class="mt-3">記錄分數</h3>
 <hr>
@@ -8,27 +8,31 @@
   <div class="form-group row">
     <label for="score1" class="col-sm-2 col-form-label">{{ game.player1 }}</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" id="score1" name="score1" autofocus>
+      <input type="number" class="form-control" id="score1" name="score1" required autofocus>
     </div>
   </div>
   <div class="form-group row">
     <label for="score2" class="col-sm-2 col-form-label">{{ game.player2 }}</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" id="score2" name="score2">
+      <input type="number" class="form-control" id="score2" name="score2" required>
     </div>
   </div>
   <div class="form-group row">
     <label for="score3" class="col-sm-2 col-form-label">{{ game.player3 }}</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" id="score3" name="score3" >
+      <input type="number" class="form-control" id="score3" name="score3" required>
     </div>
   </div>
   <div class="form-group row">
     <label for="score4" class="col-sm-2 col-form-label">{{ game.player4 }}</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" id="score4" name="score4">
+      <input type="number" class="form-control" id="score4" name="score4" required>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary">紀錄</button>
+  <div class="d-flex justify-content-between mt-3">
+    <a href="{% url game_detail_url game.id %}" class="btn btn-primary"><i class="fas fa-angle-double-left mr-2"></i>回上頁</a>
+    <button type="submit" class="btn btn-primary">紀錄</button>
+  </div>
+
 </form>
 {% endblock %}

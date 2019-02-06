@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}ScoreBoardApp | {{ game_name }} - 遊戲紀錄{% endblock %}
+{% block content %}
+<script>
+  $(document).ready(function() {
+    var id = null;
+    $('.modal').on('show.bs.modal', function (e) {
+      var trigger = $(e.relatedTarget);
+      id = trigger[0].parentNode.parentNode.id;
+      $.get("/poker/api/getRound/" + id, function(result){
+        $(".modal-body").html(result);
+      });
+    });
+    $(".delete-button").click(function(){
+        url = "/poker/api/deleteRound/" + id
+        $( location ).attr("href", url);
+    });
+  })
+</script> 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">確定要刪除以下資料嗎?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary delete-button">確定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex mt-3">
+  <h3 class="mr-auto">{{ game_name }}遊戲紀錄</h3>
+  {% if game.status == 0 %}
+  <a href="{% url game_create_url game.id %}" class="btn btn-outline-primary">紀錄分數</a>
+  {% else %}
+  <button type="button" class="btn btn-info" disabled>此賽局已結束</button>
+  {% endif %}
+</div>
+
+  <div class="table-responsive-lg">
+  <table class="table table-striped text-center mt-3">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">{{ game.player1 }}</th>
+        <th scope="col">{{ game.player2 }}</th>
+        <th scope="col">{{ game.player3 }}</th>
+        <th scope="col">{{ game.player4 }}</th>
+        <th width="20%" scope="col">記錄時間</th>
+        <th width="5%"></th>
+        <th width="5%"></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <th scope="row">總和</th>
+          {% if sum1 >= 0 %}<td class="text-success">{{ sum1 }}</td>
+          {% else %}<td class="text-danger">{{ sum1 }}</td>{% endif %}
+          {% if sum2 >= 0 %}<td class="text-success">{{ sum2 }}</td>
+          {% else %}<td class="text-danger">{{ sum2 }}</td>{% endif %}
+          {% if sum3 >= 0 %}<td class="text-success">{{ sum3 }}</td>
+          {% else %}<td class="text-danger">{{ sum3 }}</td>{% endif %}
+          {% if sum4 >= 0 %}<td class="text-success">{{ sum4 }}</td>
+          {% else %}<td class="text-danger">{{ sum4 }}</td>{% endif %}
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      {% for round in round_list %}
+      <tr id="{{round.id}}">
+        <th scope="row">{{ forloop.revcounter }}</th>
+        {% if round.score1 >= 0 %}<td class="text-success">{{ round.score1 }}</td>
+        {% else %}<td class="text-danger">{{ round.score1 }}</td>{% endif %}
+        {% if round.score2 >= 0 %}<td class="text-success">{{ round.score2 }}</td>
+        {% else %}<td class="text-danger">{{ round.score2 }}</td>{% endif %}
+        {% if round.score3 >= 0 %}<td class="text-success">{{ round.score3 }}</td>
+        {% else %}<td class="text-danger">{{ round.score3 }}</td>{% endif %}
+        {% if round.score4 >= 0 %}<td class="text-success">{{ round.score4 }}</td>
+        {% else %}<td class="text-danger">{{ round.score4 }}</td>{% endif %}
+        <td>{{ round.create_time }}</td>
+        <td>{% if game.status == 0 %}<a href="#" class="text-warning"><i class="far fa-edit"></i></a>{% endif %}</td>
+        <td>{% if game.status == 0 %}<a href="#" class="text-danger" data-toggle="modal" data-target="#exampleModal"><i class="far fa-trash-alt"></i></a>{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if game.status == 0 %}
+  <a href="{% url game_end_url game.id %}" class="btn btn-outline-secondary btn-sm mb-3">結束該遊戲</a>
+  {% endif %}
+</div>
+{% endblock %}
