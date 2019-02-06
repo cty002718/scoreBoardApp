@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}撲克遊戲紀錄{% endblock %}
+{% block content %}
+<div class="d-flex mt-3">
+  <h3 class="mr-auto">遊戲紀錄</h3>
+  {% if game.status == 0 %}
+  <a href="{% url "poker_create_round" game.id %}" class="btn btn-outline-primary">紀錄新局</a>
+  {% else %}
+  <button type="button" class="btn btn-info" disabled>此賽局已結束</button>
+  {% endif %}
+</div>
+
+  <div class="table-responsive-lg">
+  <table class="table table-striped text-center mt-3">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">{{ game.player1 }}</th>
+        <th scope="col">{{ game.player2 }}</th>
+        <th scope="col">{{ game.player3 }}</th>
+        <th scope="col">{{ game.player4 }}</th>
+        <th scope="col">記錄時間</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <th scope="row">總和</th>
+          {% if sum1 >= 0 %}<td class="text-success">{{ sum1 }}</td>
+          {% else %}<td class="text-danger">{{ sum1 }}</td>{% endif %}
+          {% if sum2 >= 0 %}<td class="text-success">{{ sum2 }}</td>
+          {% else %}<td class="text-danger">{{ sum2 }}</td>{% endif %}
+          {% if sum3 >= 0 %}<td class="text-success">{{ sum3 }}</td>
+          {% else %}<td class="text-danger">{{ sum3 }}</td>{% endif %}
+          {% if sum4 >= 0 %}<td class="text-success">{{ sum4 }}</td>
+          {% else %}<td class="text-danger">{{ sum4 }}</td>{% endif %}
+          <td></td>
+        </tr>
+      {% for round in round_list %}
+      <tr>
+        <th scope="row">{{ forloop.revcounter }}</th>
+        {% if round.score1 >= 0 %}<td class="text-success">{{ round.score1 }}</td>
+        {% else %}<td class="text-danger">{{ round.score1 }}</td>{% endif %}
+        {% if round.score2 >= 0 %}<td class="text-success">{{ round.score2 }}</td>
+        {% else %}<td class="text-danger">{{ round.score2 }}</td>{% endif %}
+        {% if round.score3 >= 0 %}<td class="text-success">{{ round.score3 }}</td>
+        {% else %}<td class="text-danger">{{ round.score3 }}</td>{% endif %}
+        {% if round.score4 >= 0 %}<td class="text-success">{{ round.score4 }}</td>
+        {% else %}<td class="text-danger">{{ round.score4 }}</td>{% endif %}
+        <td>{{ round.create_time }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if game.status == 0 %}
+  <a href="{% url "poker_end_game" game.id %}" class="btn btn-outline-secondary btn-sm mb-3">結束該遊戲</a>
+  {% endif %}
+</div>
+{% endblock %}

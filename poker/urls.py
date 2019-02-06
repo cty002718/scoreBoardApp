@@ -1,0 +1,10 @@
+from django.urls import path
+from .views import index, detail, createGame, createRound, apiEndGame
+
+urlpatterns = [
+    path('', index, name="poker_index"),
+    path('<int:id>/', detail, name="poker_detail"),
+    path('create_game/', createGame, name="poker_create_game"),
+    path('create_round/<int:game_id>/', createRound, name="poker_create_round"),
+    path('api/end_game/<int:game_id>/', apiEndGame, name="poker_end_game"),
+]

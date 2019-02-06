@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}撲克計分首頁{% endblock %}
+{% block content %}
+  <div class="d-flex justify-content-between mt-3">
+    <h3>已建立的撲克遊戲</h3>
+    <a href="{% url "poker_create_game" %}" class="btn btn-outline-primary">新建遊戲</a>
+  </div>
+
+  <table class="table text-center mt-3">
+    <thead>
+      <tr>
+        <th scope="col">遊戲編號</th>
+        <th scope="col">開始時間</th>
+        <th scope="col">結束時間</th>
+        <th scope="col">狀態</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for game in gameList %}
+      <tr>
+        <th scope="row"><a href="{% url "poker_detail" game.id %}">{{ forloop.counter }}</a></th>
+        <td>{{ game.create_time }}</td>
+        <td>
+          {% if game.end_time %}
+          {{ game.end_time }}
+          {% endif %}
+        </td>
+        <td>
+          {% if game.status == 0 %}
+          <span class="badge badge-pill badge-success">遊戲中</span>
+          {% else %}
+          <span class="badge badge-pill badge-primary">已結束</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
