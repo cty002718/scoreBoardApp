@@ -29,11 +29,25 @@ def detail(request, id):
         return redirect(reverse('poker_index'))
     round_list = Round.objects.filter(game=game).order_by('-pk')
     sum1 = sum2 = sum3 = sum4 = 0
+    win1 = win2 = win3 = win4 = 0
     for round in round_list:
+        if(round.score1 > 0): win1 += 1
+        if(round.score2 > 0): win2 += 1
+        if(round.score3 > 0): win3 += 1
+        if(round.score4 > 0): win4 += 1
         sum1 += round.score1
         sum2 += round.score2
         sum3 += round.score3
         sum4 += round.score4
+    total_win = len(round_list)
+    win1 /= float(total_win)
+    win2 /= float(total_win)
+    win3 /= float(total_win)
+    win4 /= float(total_win)
+    win1 *= 100
+    win2 *= 100
+    win3 *= 100
+    win4 *= 100
     return render(request, "detail.html", locals())
 
 @login_required(login_url='/user/login')
