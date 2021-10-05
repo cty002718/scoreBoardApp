@@ -82,8 +82,8 @@
     <tbody>
         <tr>
           <th scope="row">總和</th>
-	  {% if sum1 >= 0 %}<td class="text-success">{{ sum1 }}<br>({{ win1 | floatformat:2 }}%)</td>
-	  {% else %}<td class="text-danger">{{ sum1 }}<br>({{ win1 | floatformat:2}}%)</td>{% endif %}
+          {% if sum1 >= 0 %}<td class="text-success">{{ sum1 }}<br>({{ win1 | floatformat:2 }}%)</td>
+          {% else %}<td class="text-danger">{{ sum1 }}<br>({{ win1 | floatformat:2}}%)</td>{% endif %}
 	  {% if sum2 >= 0 %}<td class="text-success">{{ sum2 }}<br>({{ win2 | floatformat:2 }}%)</td>
 	  {% else %}<td class="text-danger">{{ sum2 }}<br>({{ win2 | floatformat:2 }}%)</td>{% endif %}
 	  {% if sum3 >= 0 %}<td class="text-success">{{ sum3 }}<br>({{ win3 | floatformat:2 }}%)</td>
